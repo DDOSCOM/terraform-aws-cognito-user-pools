@@ -54,6 +54,7 @@ No modules.
 | <a name="input_google_id"></a> [google\_id](#input\_google\_id) | n/a | `string` | `null` | no |
 | <a name="input_google_idp_enabled"></a> [google\_idp\_enabled](#input\_google\_idp\_enabled) | Enable the Google Social login integration | `bool` | `false` | no |
 | <a name="input_google_secret"></a> [google\_secret](#input\_google\_secret) | n/a | `string` | `null` | no |
+| <a name="input_html_email_message"></a> [html\_email\_message](#input\_html\_email\_message) | Custom HTML email file route | `string` | `""` | no |
 | <a name="input_logout_urls"></a> [logout\_urls](#input\_logout\_urls) | n/a | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Cognito pool name | `string` | n/a | yes |
 | <a name="input_post_authentication_lambda"></a> [post\_authentication\_lambda](#input\_post\_authentication\_lambda) | Cognito lambda trigger | `string` | `null` | no |
