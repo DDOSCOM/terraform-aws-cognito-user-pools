@@ -2,7 +2,7 @@ resource "aws_cognito_user_pool" "this" {
   name = var.name
 
   sms_authentication_message = var.auth_sms_message
-  email_verification_message = var.auth_sms_message
+  email_verification_message = var.html_email_message == "" ? var.auth_sms_message : var.html_email_message
   email_verification_subject = "Código de verificación"
   mfa_configuration          = "OPTIONAL"
 

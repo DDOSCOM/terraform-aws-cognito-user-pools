@@ -134,3 +134,9 @@ variable "apple_private_key_path" {
   type    = string
   default = null
 }
+
+variable "html_email_message" {
+  description = "Custom HTML email file route"
+  type        = string
+  default     = ""
+}
