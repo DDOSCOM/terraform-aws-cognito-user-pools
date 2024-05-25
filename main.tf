@@ -205,7 +205,7 @@ resource "aws_cognito_user_pool_client" "this" {
   user_pool_id                         = aws_cognito_user_pool.this.id
   callback_urls                        = var.callback_urls
   logout_urls                          = var.logout_urls
-  supported_identity_providers         = ["COGNITO", "Facebook", "Google", "SignInWithApple"]
+  supported_identity_providers         = local.supported_identity_providers
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
