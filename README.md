@@ -2,7 +2,44 @@
 
 ## Description
 
-This is a Lightweight terraform module to deploy a base stable versión of a Cognito User Pool and a Cognito Identity Pool
+# Amazon Cognito Configuration Module
+
+This repository contains Terraform configurations for setting up an Amazon Cognito User Pool with advanced customization options and identity providers integration. The module provides a flexible and secure way to manage user authentication and authorization.
+
+## Key Differences
+
+### Additional Variables
+The updated module includes additional variables such as `email_verification_subject`, `mfa_configuration`, `allow_admin_create_user_only`, etc., which allow for greater customization and security settings.
+
+### Advanced Configurations
+The updated module uses these additional variables in the `aws_cognito_user_pool` configuration, enabling more detailed and personalized settings.
+
+### Identity Providers Integration
+Both versions include configurations for integrating Facebook, Google, and Apple as identity providers, using the provided variables for these providers.
+
+## Functionality
+
+### MFA and Device Challenges
+- **Original Code**: Utilizes default values and basic settings for MFA and device challenges.
+- **Updated Code**: Allows for the configuration of these options via variables, offering greater flexibility and security.
+
+### Email and SMS Configuration
+- **Both Versions**: Configure `email_configuration` and `sms_configuration`.
+- **Updated Code**: Provides greater personalization through variables.
+
+### Account Recovery
+- **Both Versions**: Configure `account_recovery_setting` to enable account recovery via email and phone number.
+- **Updated Code**: Allows prioritization of recovery methods through variables.
+
+### User Attributes Configuration
+- **Both Versions**: Configure `schema` for user attributes such as `email`, `name`, `given_name`, `family_name`, etc.
+- **Updated Code**: Also allows configuration of `alias_attributes`.
+
+## Summary
+
+The updated code provides a more detailed and personalized configuration for Amazon Cognito. It allows advanced security and account recovery settings through additional variables. It maintains basic identity provider integrations and user attribute configurations but with greater flexibility and control.
+
+If you need more details or specific adjustments, feel free to let me know!
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
