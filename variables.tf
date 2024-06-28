@@ -338,8 +338,3 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
-
-variable "sms_sns_caller_arn" {
-  description = "SMS SNS caller ARN"
-  type        = string
-}
