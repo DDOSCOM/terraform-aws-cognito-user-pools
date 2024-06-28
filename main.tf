@@ -31,7 +31,7 @@ resource "aws_cognito_user_pool" "this" {
 
   sms_configuration {
     external_id    = var.sms_external_id
-    sns_caller_arn = var.sms_sns_caller_arn
+    sns_caller_arn = aws_iam_role.cognito_sms_role.arn
     sns_region     = var.sms_sns_region
   }
 
