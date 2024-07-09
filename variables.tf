@@ -30,39 +30,9 @@ variable "email_verification_subject" {
   type        = string
 }
 
-variable "mfa_configuration" {
-  description = "MFA configuration"
-  type        = string
-}
-
-variable "allow_admin_create_user_only" {
-  description = "Allow only admin to create users"
-  type        = bool
-}
-
-variable "software_token_mfa_enabled" {
-  description = "Enable software token MFA"
-  type        = bool
-}
-
 variable "auto_verified_attributes" {
   description = "Auto-verified attributes"
   type        = list(string)
-}
-
-variable "alias_attributes" {
-  description = "Alias attributes"
-  type        = list(string)
-}
-
-variable "device_challenge_required_on_new_device" {
-  description = "Challenge required on new device"
-  type        = bool
-}
-
-variable "device_only_remembered_on_user_prompt" {
-  description = "Only remembered on user prompt"
-  type        = bool
 }
 
 variable "email_sending_account" {
@@ -125,24 +95,45 @@ variable "password_minimum_length" {
   type        = number
 }
 
-variable "password_require_lowercase" {
-  description = "Password require lowercase"
-  type        = bool
+variable "client_name" {
+  description = "Client name"
+  type        = string
 }
 
-variable "password_require_uppercase" {
-  description = "Password require uppercase"
-  type        = bool
+variable "callback_urls" {
+  description = "Callback URLs"
+  type        = list(string)
 }
 
-variable "password_require_symbols" {
-  description = "Password require symbols"
-  type        = bool
+variable "logout_urls" {
+  description = "Logout URLs"
+  type        = list(string)
 }
 
-variable "password_require_numbers" {
-  description = "Password require numbers"
-  type        = bool
+variable "region" {
+  description = "AWS region"
+  type        = string
+}
+
+variable "domain" {
+  description = "Cognito domain"
+  type        = string
+}
+
+variable "certificate_arn" {
+  description = "Certificate ARN"
+  type        = string
+}
+
+variable "route53_zone_id" {
+  description = "Route53 zone ID"
+  type        = string
+}
+
+variable "tags" {
+  description = "Resource tags"
+  type        = map(string)
+  default     = {}
 }
 
 variable "post_confirmation_lambda" {
@@ -239,102 +230,4 @@ variable "apple_private_key_path" {
   description = "Apple private key path"
   type        = string
   default     = null
-}
-
-variable "client_name" {
-  description = "Client name"
-  type        = string
-}
-
-variable "callback_urls" {
-  description = "Callback URLs"
-  type        = list(string)
-  default     = [""]
-}
-
-variable "logout_urls" {
-  description = "Logout URLs"
-  type        = list(string)
-  default     = [""]
-}
-
-variable "allowed_oauth_flows" {
-  description = "Allowed OAuth flows"
-  type        = list(string)
-}
-
-variable "allowed_oauth_scopes" {
-  description = "Allowed OAuth scopes"
-  type        = list(string)
-}
-
-variable "id_token_validity" {
-  description = "ID token validity"
-  type        = number
-}
-
-variable "access_token_validity" {
-  description = "Access token validity"
-  type        = number
-}
-
-variable "generate_secret" {
-  description = "Generate secret"
-  type        = bool
-}
-
-variable "token_validity_units_access_token" {
-  description = "Token validity units for access token"
-  type        = string
-}
-
-variable "token_validity_units_id_token" {
-  description = "Token validity units for ID token"
-  type        = string
-}
-
-variable "token_validity_units_refresh_token" {
-  description = "Token validity units for refresh token"
-  type        = string
-}
-
-variable "explicit_auth_flows" {
-  description = "Explicit auth flows"
-  type        = list(string)
-}
-
-variable "allow_unauthenticated_identities" {
-  description = "Allow unauthenticated identities"
-  type        = bool
-}
-
-variable "allow_classic_flow" {
-  description = "Allow classic flow"
-  type        = bool
-}
-
-variable "region" {
-  description = "AWS region"
-  type        = string
-}
-
-variable "domain" {
-  description = "Cognito domain"
-  type        = string
-}
-
-variable "certificate_arn" {
-  description = "Certificate ARN"
-  type        = string
-}
-
-variable "route53_zone_id" {
-  description = "Route53 zone ID"
-  type        = string
-}
-
-variable "tags" {
-  description = "Resource tags"
-  type        = map(string)
-  default     = {}
 }
