@@ -51,8 +51,9 @@ variable "sms_external_id" {
 }
 
 variable "sms_sns_caller_arn" {
-  description = "SMS SNS caller ARN"
+  description = "SNS caller ARN for Cognito SMS configuration"
   type        = string
+  default     = null
 }
 
 variable "sms_sns_region" {
