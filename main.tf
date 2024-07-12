@@ -14,10 +14,13 @@ resource "aws_cognito_user_pool" "this" {
     from_email_address     = var.ses_from_email
   }
 
-  sms_configuration {
-    external_id    = var.sms_external_id
-    sns_caller_arn = var.sms_sns_caller_arn
-    sns_region     = var.sms_sns_region
+  dynamic "sms_configuration" {
+    for_each = var.enable_sms_sns ? [1] : []
+    content {
+      external_id    = var.sms_external_id
+      sns_caller_arn = var.sms_sns_caller_arn
+      sns_region     = var.sms_sns_region
+    }
   }
 
   account_recovery_setting {
@@ -136,7 +139,6 @@ resource "aws_cognito_user_pool_client" "this" {
   supported_identity_providers         = local.supported_identity_providers
 
   explicit_auth_flows = [
-
     "ALLOW_USER_PASSWORD_AUTH",
     "ALLOW_REFRESH_TOKEN_AUTH",
   ]

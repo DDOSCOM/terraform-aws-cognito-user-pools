@@ -50,6 +50,12 @@ variable "sms_external_id" {
   type        = string
 }
 
+variable "enable_sms_sns" {
+  description = "Boolean to enable/disable the creation of the SNS SMS policy"
+  type        = bool
+  default     = false
+}
+
 variable "sms_sns_caller_arn" {
   description = "SNS caller ARN for Cognito SMS configuration"
   type        = string
