@@ -1,3 +1,10 @@
+# Terraform Cognito User Pools
+
+## Description
+
+This is a Lightweight terraform module to deploy a base stable versión of a Cognito User Pool and a Cognito Identity Pool
+
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |

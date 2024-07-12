@@ -7,6 +7,13 @@ resource "aws_cognito_user_pool" "this" {
 
   auto_verified_attributes = var.auto_verified_attributes
 
+  dynamic "software_token_mfa_configuration" {
+    for_each = var.enable_software_token_mfa ? [1] : []
+    content {
+      enabled = true
+    }
+  }
+
   email_configuration {
     email_sending_account  = var.email_sending_account
     reply_to_email_address = var.reply_to_email_address
@@ -114,6 +121,66 @@ resource "aws_cognito_user_pool" "this" {
   tags = var.tags
 }
 
+resource "aws_cognito_identity_provider" "facebook" {
+  count         = var.facebook_idp_enabled ? 1 : 0
+  user_pool_id  = aws_cognito_user_pool.this.id
+  provider_name = "Facebook"
+  provider_type = "Facebook"
+  provider_details = {
+    client_id        = var.facebook_id
+    client_secret    = var.facebook_secret
+    authorize_scopes = "public_profile,email"
+  }
+  attribute_mapping = {
+    username    = "id"
+    email       = "email"
+    name        = "name"
+    given_name  = "given_name"
+    family_name = "family_name"
+  }
+}
+
+resource "aws_cognito_identity_provider" "google" {
+  count         = var.google_idp_enabled ? 1 : 0
+  user_pool_id  = aws_cognito_user_pool.this.id
+  provider_name = "Google"
+  provider_type = "Google"
+  provider_details = {
+    client_id        = var.google_id
+    client_secret    = var.google_secret
+    authorize_scopes = "profile email openid"
+  }
+  attribute_mapping = {
+    username    = "sub"
+    email       = "email"
+    name        = "name"
+    given_name  = "given_name"
+    family_name = "family_name"
+  }
+}
+
+resource "aws_cognito_identity_provider" "apple" {
+  count         = var.apple_idp_enabled ? 1 : 0
+  user_pool_id  = aws_cognito_user_pool.this.id
+  provider_name = "SignInWithApple"
+  provider_type = "SignInWithApple"
+  provider_details = {
+    client_id        = var.apple_service_id
+    team_id          = var.apple_team_id
+    key_id           = var.apple_key_id
+    private_key      = file(var.apple_private_key_path)
+    authorize_scopes = "email name"
+  }
+
+  attribute_mapping = {
+    username    = "sub"
+    email       = "email"
+    name        = "name"
+    given_name  = "firstName"
+    family_name = "lastName"
+  }
+}
+
 resource "aws_cognito_user_pool_domain" "this" {
   domain          = var.domain
   user_pool_id    = aws_cognito_user_pool.this.id
@@ -138,14 +205,14 @@ resource "aws_cognito_user_pool_client" "this" {
   logout_urls                          = var.logout_urls
   supported_identity_providers         = local.supported_identity_providers
 
-  explicit_auth_flows = [
-    "ALLOW_USER_PASSWORD_AUTH",
-    "ALLOW_REFRESH_TOKEN_AUTH",
-  ]
+  explicit_auth_flows = var.auth_flows
 }
+
 
 resource "aws_cognito_identity_pool" "this" {
   identity_pool_name = aws_cognito_user_pool.this.name
+  allow_unauthenticated_identities = false
+  allow_classic_flow               = false
 
   cognito_identity_providers {
     client_id     = aws_cognito_user_pool_client.this.id
