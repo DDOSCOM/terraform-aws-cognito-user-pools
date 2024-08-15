@@ -261,12 +261,6 @@ variable "apple_private_key_path" {
   default     = ""
 }
 
-variable "enable_software_token_mfa" {
-  description = "Enable or disable software token MFA configuration"
-  type        = bool
-  default     = false
-}
-
 variable "allowed_oauth_flows" {
   description = "List of allowed OAuth flows"
   type        = list(string)
