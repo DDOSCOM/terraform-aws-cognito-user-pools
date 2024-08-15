@@ -33,7 +33,7 @@ variable "email_verification_subject" {
 variable "auto_verified_attributes" {
   description = "List of attributes to be auto-verified in Cognito"
   type        = list(string)
-  default     = []
+  default     = ["email", "phone_number"]
 }
 
 
@@ -46,19 +46,18 @@ variable "enable_software_token_mfa" {
 variable "email_sending_account" {
   description = "Email sending account"
   type        = string
-  default     = "DEVELOPER"  # Valor por defecto razonable
+  default     = "DEVELOPER"  
 }
 
 variable "reply_to_email_address" {
   description = "Reply-to email address"
   type        = string
-  default     = "admin@default.com"  # Valor por defecto razonable
 }
 
 variable "sms_external_id" {
   description = "SMS external ID"
   type        = string
-  default     = ""  # Valor por defecto vacío si es opcional
+  default     = ""  
 }
 
 variable "enable_sms_sns" {
@@ -73,88 +72,79 @@ variable "sms_sns_caller_arn" {
   default     = null
 }
 
-variable "sms_sns_region" {
-  description = "SMS SNS region"
-  type        = string
-  default     = "us-east-1"  # Valor por defecto razonable
-}
-
 variable "email_recovery_name" {
   description = "Email recovery mechanism name"
   type        = string
-  default     = "verified_email"  # Valor por defecto razonable
+  default     = "verified_email"  
 }
 
 variable "email_recovery_priority" {
   description = "Email recovery mechanism priority"
   type        = number
-  default     = 1  # Valor por defecto razonable
+  default     = 1  
 }
 
 variable "phone_number_recovery_name" {
   description = "Phone number recovery mechanism name"
   type        = string
-  default     = "verified_phone_number"  # Valor por defecto razonable
+  default     = "verified_phone_number"  
 }
 
 variable "phone_number_recovery_priority" {
   description = "Phone number recovery mechanism priority"
   type        = number
-  default     = 2  # Valor por defecto razonable
+  default     = 2  
 }
 
 variable "username_attributes" {
   description = "Username attributes"
   type        = list(string)
-  default     = ["email", "phone_number"]  # Valor por defecto razonable
+  default     = ["email", "phone_number"]  
 }
 
 variable "username_case_sensitive" {
   description = "Username case sensitive"
   type        = bool
-  default     = false  # Valor por defecto razonable
+  default     = false  
 }
 
 variable "password_minimum_length" {
   description = "Password minimum length"
   type        = number
-  default     = 8  # Valor por defecto razonable
+  default     = 8  
 }
 
 variable "client_name" {
   description = "Client name"
   type        = string
-  default     = "default_client"  # Valor por defecto razonable
+  default     = "default-service-client"  
 }
 
 variable "callback_urls" {
   description = "Callback URLs"
   type        = list(string)
-  default     = ["http://localhost:3000"]  # Valor por defecto razonable
+  default     = ["http://localhost:3000"]  
 }
 
 variable "logout_urls" {
   description = "Logout URLs"
   type        = list(string)
-  default     = ["http://localhost:3000"]  # Valor por defecto razonable
+  default     = ["http://localhost:3000"]  
 }
 
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-1"  # Valor por defecto razonable
 }
 
 variable "domain" {
   description = "Cognito domain"
   type        = string
-  default     = "default.domain.com"  # Valor por defecto razonable
 }
 
 variable "certificate_arn" {
   description = "Certificate ARN"
   type        = string
-  default     = ""  # Valor por defecto vacío si es opcional
 }
 
 
@@ -269,4 +259,76 @@ variable "apple_private_key_path" {
   description = "Path to Apple private key"
   type        = string
   default     = ""
+}
+
+variable "enable_software_token_mfa" {
+  description = "Enable or disable software token MFA configuration"
+  type        = bool
+  default     = false
+}
+
+variable "allowed_oauth_flows" {
+  description = "List of allowed OAuth flows"
+  type        = list(string)
+  default     = ["code", "implicit"]
+}
+
+variable "allowed_oauth_scopes" {
+  description = "List of allowed OAuth scopes"
+  type        = list(string)
+  default     = ["email", "openid", "profile"]
+}
+
+variable "id_token_validity" {
+  description = "Validity duration for ID tokens (in minutes)"
+  type        = number
+  default     = 60
+}
+
+variable "access_token_validity" {
+  description = "Validity duration for Access tokens (in minutes)"
+  type        = number
+  default     = 60
+}
+
+variable "refresh_token_validity" {
+  description = "Validity duration for Refresh tokens (in days)"
+  type        = number
+  default     = 30
+}
+
+variable "generate_secret" {
+  description = "Whether to generate a secret for the client"
+  type        = bool
+  default     = false
+}
+
+variable "require_lowercase" {
+  description = "Determines if lowercase characters are required in the password policy"
+  type        = bool
+  default     = false
+}
+
+variable "require_uppercase" {
+  description = "Determines if uppercase characters are required in the password policy"
+  type        = bool
+  default     = false
+}
+
+variable "require_symbols" {
+  description = "Determines if symbols are required in the password policy"
+  type        = bool
+  default     = false
+}
+
+variable "require_numbers" {
+  description = "Determines if numbers are required in the password policy"
+  type        = bool
+  default     = false
+}
+
+variable "default_attribute_required" {
+  description = "Valor por defecto para el atributo 'required' en los esquemas de Cognito."
+  type        = bool
+  default     = false
 }

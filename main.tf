@@ -26,7 +26,7 @@ resource "aws_cognito_user_pool" "this" {
     content {
       external_id    = var.sms_external_id
       sns_caller_arn = var.sms_sns_caller_arn
-      sns_region     = var.sms_sns_region
+      sns_region     = var.region
     }
   }
 
@@ -46,69 +46,73 @@ resource "aws_cognito_user_pool" "this" {
     case_sensitive = var.username_case_sensitive
   }
 
-  password_policy {
-    minimum_length = var.password_minimum_length
-  }
+password_policy {
+  minimum_length    = var.password_minimum_length
+  require_lowercase = var.require_lowercase
+  require_uppercase = var.require_uppercase
+  require_symbols   = var.require_symbols
+  require_numbers   = var.require_numbers
+}
 
-  schema {
-    name                     = "email"
-    attribute_data_type      = "String"
-    developer_only_attribute = false
-    mutable                  = true
-    required                 = false
-    string_attribute_constraints {
-      min_length = 1
-      max_length = 50
-    }
+schema {
+  name                     = "email"
+  attribute_data_type      = "String"
+  developer_only_attribute = false
+  mutable                  = true
+  required                 = var.default_attribute_required
+  string_attribute_constraints {
+    min_length = 1
+    max_length = 50
   }
+}
 
-  schema {
-    name                     = "name"
-    attribute_data_type      = "String"
-    required                 = false
-    mutable                  = true
-    developer_only_attribute = false
-    string_attribute_constraints {
-      min_length = 3
-      max_length = 2048
-    }
+schema {
+  name                     = "name"
+  attribute_data_type      = "String"
+  required                 = var.default_attribute_required
+  mutable                  = true
+  developer_only_attribute = false
+  string_attribute_constraints {
+    min_length = 3
+    max_length = 2048
   }
+}
 
-  schema {
-    name                     = "given_name"
-    attribute_data_type      = "String"
-    required                 = true
-    mutable                  = true
-    developer_only_attribute = false
-    string_attribute_constraints {
-      min_length = 3
-      max_length = 2048
-    }
+schema {
+  name                     = "given_name"
+  attribute_data_type      = "String"
+  required                 = true
+  mutable                  = true
+  developer_only_attribute = false
+  string_attribute_constraints {
+    min_length = 3
+    max_length = 2048
   }
+}
 
-  schema {
-    name                     = "family_name"
-    attribute_data_type      = "String"
-    required                 = true
-    mutable                  = true
-    developer_only_attribute = false
-    string_attribute_constraints {
-      min_length = 3
-      max_length = 2048
-    }
+schema {
+  name                     = "family_name"
+  attribute_data_type      = "String"
+  required                 = true
+  mutable                  = true
+  developer_only_attribute = false
+  string_attribute_constraints {
+    min_length = 3
+    max_length = 2048
   }
+}
 
-  schema {
-    name                     = "org"
-    attribute_data_type      = "String"
-    mutable                  = true
-    required                 = false
-    developer_only_attribute = false
-    string_attribute_constraints {
-      min_length = 1
-      max_length = 256
-    }
+schema {
+  name                     = "org"
+  attribute_data_type      = "String"
+  mutable                  = true
+  required                 = var.default_attribute_required
+  developer_only_attribute = false
+  string_attribute_constraints {
+    min_length = 1
+    max_length = 256
   }
+}
 
   lambda_config {
     post_confirmation    = var.post_confirmation_lambda
@@ -205,9 +209,24 @@ resource "aws_cognito_user_pool_client" "this" {
   logout_urls                          = var.logout_urls
   supported_identity_providers         = local.supported_identity_providers
 
-  explicit_auth_flows = var.auth_flows
-}
+  explicit_auth_flows = distinct(concat(
+    ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_USER_SRP_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"],
+    var.auth_flows
+  ))
 
+  allowed_oauth_flows                  = var.allowed_oauth_flows
+  allowed_oauth_scopes                 = var.allowed_oauth_scopes
+  id_token_validity                    = var.id_token_validity
+  access_token_validity                = var.access_token_validity
+  refresh_token_validity               = var.refresh_token_validity
+  generate_secret                      = var.generate_secret
+
+  token_validity_units {
+    access_token  = "minutes"
+    id_token      = "minutes"
+    refresh_token = "days"
+  }
+}
 
 resource "aws_cognito_identity_pool" "this" {
   identity_pool_name = aws_cognito_user_pool.this.name
