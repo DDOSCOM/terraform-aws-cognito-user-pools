@@ -26,7 +26,7 @@ resource "aws_cognito_user_pool" "this" {
     content {
       external_id    = var.sms_external_id
       sns_caller_arn = var.sms_sns_caller_arn
-      sns_region     = var.region
+      sns_region     = var.aws_region
     }
   }
 

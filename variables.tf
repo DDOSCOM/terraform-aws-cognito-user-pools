@@ -132,7 +132,7 @@ variable "logout_urls" {
   default     = ["http://localhost:3000"]  
 }
 
-variable "region" {
+variable "aws_region" {
   description = "AWS region"
   type        = string
 }
