@@ -249,15 +249,15 @@ variable "apple_team_id" {
   default     = ""
 }
 
-variable "apple_key_id" {
-  description = "Apple key ID"
-  type        = string
-}
+# variable "apple_key_id" {
+#   description = "Apple key ID"
+#   type        = string
+# }
 
-variable "apple_private_key" {
-  description = "Path to Apple private key"
-  type        = string
-}
+# variable "apple_private_key" {
+#   description = "Path to Apple private key"
+#   type        = string
+# }
 
 variable "allowed_oauth_flows" {
   description = "List of allowed OAuth flows"

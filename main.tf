@@ -1,9 +1,9 @@
 resource "aws_cognito_user_pool" "this" {
-  name = var.name
+  name = var.name # This value is mandatory and must be provided to define the Cognito pool name.
 
   sms_authentication_message = var.auth_sms_message
   email_verification_message = var.html_email_message == "" ? var.auth_sms_message : var.html_email_message
-  email_verification_subject = var.email_verification_subject
+  email_verification_subject = var.email_verification_subject # This value is mandatory and defines the subject line for email verification messages.
 
   auto_verified_attributes = var.auto_verified_attributes
 
@@ -17,16 +17,16 @@ resource "aws_cognito_user_pool" "this" {
   email_configuration {
     email_sending_account  = var.email_sending_account
     reply_to_email_address = var.reply_to_email_address  # This value is mandatory and must be provided to ensure proper SES configuration
-    source_arn             = var.ses_configuration_arn
-    from_email_address     = var.ses_from_email
+    source_arn             = var.ses_configuration_arn   # This value is mandatory for configuring the SES integration with Cognito.
+    from_email_address     = var.ses_from_email          # This value is mandatory and specifies the "From" email address for SES.
   }
 
   dynamic "sms_configuration" {
     for_each = var.enable_sms_sns ? [1] : []
     content {
       external_id    = var.sms_external_id
-      sns_caller_arn = var.sms_sns_caller_arn
-      sns_region     = var.aws_region
+      sns_caller_arn = var.sms_sns_caller_arn # This value is mandatory when SMS SNS is enabled for Cognito.
+      sns_region     = var.aws_region         # This value is mandatory and defines the AWS region where resources will be deployed.
     }
   }
 
@@ -171,8 +171,8 @@ resource "aws_cognito_identity_provider" "apple" {
   provider_details = {
     client_id        = var.apple_service_id
     team_id          = var.apple_team_id
-    key_id           = var.apple_key_id
-    private_key      = var.apple_private_key
+    # key_id           = var.apple_key_id       # This value is mandatory when enabling SignInWithApple for the Cognito user pool.
+    # private_key      = var.apple_private_key  # This value is mandatory and specifies the path to the Apple private key for SignInWithApple.
     authorize_scopes = "email name"
   }
 
@@ -186,14 +186,14 @@ resource "aws_cognito_identity_provider" "apple" {
 }
 
 resource "aws_cognito_user_pool_domain" "this" {
-  domain          = var.domain
+  domain          = var.domain                        # This value is mandatory and specifies the custom domain for the Cognito user pool.
   user_pool_id    = aws_cognito_user_pool.this.id
-  certificate_arn = var.certificate_arn
+  certificate_arn = var.certificate_arn               # This value is mandatory when using a custom domain with Route53 for the Cognito user pool.
 }
 
 resource "aws_route53_record" "this" {
-  zone_id = var.route53_zone_id
-  name    = var.domain
+  zone_id = var.route53_zone_id                       # This value is mandatory and specifies the Route53 zone ID for DNS configuration.
+  name    = var.domain                                # This value is mandatory and specifies the custom domain for the Cognito user pool.
   type    = "CNAME"
   ttl     = 10
   records = [aws_cognito_user_pool_domain.this.cloudfront_distribution_arn]
@@ -236,6 +236,6 @@ resource "aws_cognito_identity_pool" "this" {
 
   cognito_identity_providers {
     client_id     = aws_cognito_user_pool_client.this.id
-    provider_name = "cognito-idp.${var.region}.amazonaws.com/${aws_cognito_user_pool.this.id}"
+    provider_name = "cognito-idp.${var.aws_region}.amazonaws.com/${aws_cognito_user_pool.this.id}"
   }
 }
