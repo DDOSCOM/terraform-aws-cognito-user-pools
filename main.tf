@@ -16,7 +16,7 @@ resource "aws_cognito_user_pool" "this" {
 
   email_configuration {
     email_sending_account  = var.email_sending_account
-    reply_to_email_address = var.reply_to_email_address
+    reply_to_email_address = var.reply_to_email_address  # This value is mandatory and must be provided to ensure proper SES configuration
     source_arn             = var.ses_configuration_arn
     from_email_address     = var.ses_from_email
   }
