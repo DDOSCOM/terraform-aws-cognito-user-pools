@@ -252,13 +252,11 @@ variable "apple_team_id" {
 variable "apple_key_id" {
   description = "Apple key ID"
   type        = string
-  default     = ""
 }
 
-variable "apple_private_key_path" {
+variable "apple_private_key" {
   description = "Path to Apple private key"
   type        = string
-  default     = ""
 }
 
 variable "allowed_oauth_flows" {

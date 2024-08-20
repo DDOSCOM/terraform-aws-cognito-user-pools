@@ -172,7 +172,7 @@ resource "aws_cognito_identity_provider" "apple" {
     client_id        = var.apple_service_id
     team_id          = var.apple_team_id
     key_id           = var.apple_key_id
-    private_key      = file(var.apple_private_key_path)
+    private_key      = var.apple_private_key
     authorize_scopes = "email name"
   }
 
