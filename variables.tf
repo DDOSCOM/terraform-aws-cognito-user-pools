@@ -63,7 +63,7 @@ variable "sms_external_id" {
 variable "enable_sms_sns" {
   description = "Boolean to enable/disable the creation of the SNS SMS policy"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "sms_sns_caller_arn" {
