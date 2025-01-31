@@ -1,16 +1,19 @@
 variable "name" {
   description = "Cognito pool name"
   type        = string
+  default     = ""
 }
 
 variable "ses_configuration_arn" {
   description = "SES configuration ARN"
   type        = string
+  default     = ""
 }
 
 variable "ses_from_email" {
   description = "From email address for SES"
   type        = string
+  default     = ""
 }
 
 variable "auth_sms_message" {
@@ -28,6 +31,7 @@ variable "html_email_message" {
 variable "email_verification_subject" {
   description = "Email verification subject"
   type        = string
+  default     = ""
 }
 
 variable "auto_verified_attributes" {
@@ -46,12 +50,13 @@ variable "enable_software_token_mfa" {
 variable "email_sending_account" {
   description = "Email sending account"
   type        = string
-  default     = "DEVELOPER"  
+  default     = "COGNITO_DEFAULT"  
 }
 
 variable "reply_to_email_address" {
   description = "Reply-to email address"
   type        = string
+  default = ""
 }
 
 variable "sms_external_id" {
@@ -63,7 +68,7 @@ variable "sms_external_id" {
 variable "enable_sms_sns" {
   description = "Boolean to enable/disable the creation of the SNS SMS policy"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "sms_sns_caller_arn" {
@@ -135,22 +140,26 @@ variable "logout_urls" {
 variable "aws_region" {
   description = "AWS region"
   type        = string
+  default     = "us-east-1"  
 }
 
 variable "domain" {
   description = "Cognito domain"
   type        = string
+  default     = ""  
 }
 
 variable "certificate_arn" {
   description = "Certificate ARN"
   type        = string
+  default     = "" 
 }
 
 
 variable "route53_zone_id" {
   description = "Route53 zone ID"
   type        = string
+  default     = "" 
 }
 
 variable "auth_flows" {
@@ -249,15 +258,17 @@ variable "apple_team_id" {
   default     = ""
 }
 
-# variable "apple_key_id" {
-#   description = "Apple key ID"
-#   type        = string
-# }
+variable "apple_key_id" {
+  description = "Apple key ID"
+  type        = string
+  default     = ""
+}
 
-# variable "apple_private_key" {
-#   description = "Path to Apple private key"
-#   type        = string
-# }
+variable "apple_private_key" {
+  description = "Path to Apple private key"
+  type        = string
+  default     = ""
+}
 
 variable "allowed_oauth_flows" {
   description = "List of allowed OAuth flows"

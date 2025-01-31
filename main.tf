@@ -171,8 +171,8 @@ resource "aws_cognito_identity_provider" "apple" {
   provider_details = {
     client_id        = var.apple_service_id
     team_id          = var.apple_team_id
-    # key_id           = var.apple_key_id       # This value is mandatory when enabling SignInWithApple for the Cognito user pool.
-    # private_key      = var.apple_private_key  # This value is mandatory and specifies the path to the Apple private key for SignInWithApple.
+    key_id           = var.apple_key_id       # This value is mandatory when enabling SignInWithApple for the Cognito user pool.
+    private_key      = var.apple_private_key  # This value is mandatory and specifies the path to the Apple private key for SignInWithApple.
     authorize_scopes = "email name"
   }
 
@@ -186,17 +186,20 @@ resource "aws_cognito_identity_provider" "apple" {
 }
 
 resource "aws_cognito_user_pool_domain" "this" {
+  count = var.domain == "" ? 0 : 1
+
   domain          = var.domain                        # This value is mandatory and specifies the custom domain for the Cognito user pool.
   user_pool_id    = aws_cognito_user_pool.this.id
   certificate_arn = var.certificate_arn               # This value is mandatory when using a custom domain with Route53 for the Cognito user pool.
 }
 
 resource "aws_route53_record" "this" {
+  count  = var.domain == "" ? 0 : 1
   zone_id = var.route53_zone_id                       # This value is mandatory and specifies the Route53 zone ID for DNS configuration.
   name    = var.domain                                # This value is mandatory and specifies the custom domain for the Cognito user pool.
   type    = "CNAME"
   ttl     = 10
-  records = [aws_cognito_user_pool_domain.this.cloudfront_distribution_arn]
+  records = [aws_cognito_user_pool_domain.this[0].cloudfront_distribution]
 }
 
 resource "aws_cognito_user_pool_client" "this" {
