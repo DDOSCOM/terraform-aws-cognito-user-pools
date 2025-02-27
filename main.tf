@@ -16,9 +16,9 @@ resource "aws_cognito_user_pool" "this" {
 
   email_configuration {
     email_sending_account  = var.email_sending_account
-    reply_to_email_address = var.reply_to_email_address  # This value is mandatory and must be provided to ensure proper SES configuration
-    source_arn             = var.ses_configuration_arn   # This value is mandatory for configuring the SES integration with Cognito.
-    from_email_address     = var.ses_from_email          # This value is mandatory and specifies the "From" email address for SES.
+    reply_to_email_address = var.reply_to_email_address # This value is mandatory and must be provided to ensure proper SES configuration
+    source_arn             = var.ses_configuration_arn  # This value is mandatory for configuring the SES integration with Cognito.
+    from_email_address     = var.ses_from_email         # This value is mandatory and specifies the "From" email address for SES.
   }
 
   dynamic "sms_configuration" {
@@ -46,73 +46,73 @@ resource "aws_cognito_user_pool" "this" {
     case_sensitive = var.username_case_sensitive
   }
 
-password_policy {
-  minimum_length    = var.password_minimum_length
-  require_lowercase = var.require_lowercase
-  require_uppercase = var.require_uppercase
-  require_symbols   = var.require_symbols
-  require_numbers   = var.require_numbers
-}
-
-schema {
-  name                     = "email"
-  attribute_data_type      = "String"
-  developer_only_attribute = false
-  mutable                  = true
-  required                 = var.default_attribute_required
-  string_attribute_constraints {
-    min_length = 1
-    max_length = 50
+  password_policy {
+    minimum_length    = var.password_minimum_length
+    require_lowercase = var.require_lowercase
+    require_uppercase = var.require_uppercase
+    require_symbols   = var.require_symbols
+    require_numbers   = var.require_numbers
   }
-}
 
-schema {
-  name                     = "name"
-  attribute_data_type      = "String"
-  required                 = var.default_attribute_required
-  mutable                  = true
-  developer_only_attribute = false
-  string_attribute_constraints {
-    min_length = 3
-    max_length = 2048
+  schema {
+    name                     = "email"
+    attribute_data_type      = "String"
+    developer_only_attribute = false
+    mutable                  = true
+    required                 = var.default_attribute_required
+    string_attribute_constraints {
+      min_length = 1
+      max_length = 50
+    }
   }
-}
 
-schema {
-  name                     = "given_name"
-  attribute_data_type      = "String"
-  required                 = true
-  mutable                  = true
-  developer_only_attribute = false
-  string_attribute_constraints {
-    min_length = 3
-    max_length = 2048
+  schema {
+    name                     = "name"
+    attribute_data_type      = "String"
+    required                 = var.default_attribute_required
+    mutable                  = true
+    developer_only_attribute = false
+    string_attribute_constraints {
+      min_length = 3
+      max_length = 2048
+    }
   }
-}
 
-schema {
-  name                     = "family_name"
-  attribute_data_type      = "String"
-  required                 = true
-  mutable                  = true
-  developer_only_attribute = false
-  string_attribute_constraints {
-    min_length = 3
-    max_length = 2048
+  schema {
+    name                     = "given_name"
+    attribute_data_type      = "String"
+    required                 = true
+    mutable                  = true
+    developer_only_attribute = false
+    string_attribute_constraints {
+      min_length = 3
+      max_length = 2048
+    }
   }
-}
 
-schema {
-  name                     = "org"
-  attribute_data_type      = "String"
-  mutable                  = true
-  required                 = var.default_attribute_required
-  developer_only_attribute = false
-  string_attribute_constraints {
-    min_length = 1
-    max_length = 256
+  schema {
+    name                     = "family_name"
+    attribute_data_type      = "String"
+    required                 = true
+    mutable                  = true
+    developer_only_attribute = false
+    string_attribute_constraints {
+      min_length = 3
+      max_length = 2048
+    }
   }
-}
+
+  schema {
+    name                     = "org"
+    attribute_data_type      = "String"
+    mutable                  = true
+    required                 = var.default_attribute_required
+    developer_only_attribute = false
+    string_attribute_constraints {
+      min_length = 1
+      max_length = 256
+    }
+  }
 
   lambda_config {
     post_confirmation    = var.post_confirmation_lambda
@@ -171,8 +171,8 @@ resource "aws_cognito_identity_provider" "apple" {
   provider_details = {
     client_id        = var.apple_service_id
     team_id          = var.apple_team_id
-    key_id           = var.apple_key_id       # This value is mandatory when enabling SignInWithApple for the Cognito user pool.
-    private_key      = var.apple_private_key  # This value is mandatory and specifies the path to the Apple private key for SignInWithApple.
+    key_id           = var.apple_key_id      # This value is mandatory when enabling SignInWithApple for the Cognito user pool.
+    private_key      = var.apple_private_key # This value is mandatory and specifies the path to the Apple private key for SignInWithApple.
     authorize_scopes = "email name"
   }
 
@@ -188,15 +188,15 @@ resource "aws_cognito_identity_provider" "apple" {
 resource "aws_cognito_user_pool_domain" "this" {
   count = var.domain == "" ? 0 : 1
 
-  domain          = var.domain                        # This value is mandatory and specifies the custom domain for the Cognito user pool.
+  domain          = var.domain # This value is mandatory and specifies the custom domain for the Cognito user pool.
   user_pool_id    = aws_cognito_user_pool.this.id
-  certificate_arn = var.certificate_arn               # This value is mandatory when using a custom domain with Route53 for the Cognito user pool.
+  certificate_arn = var.certificate_arn # This value is mandatory when using a custom domain with Route53 for the Cognito user pool.
 }
 
 resource "aws_route53_record" "this" {
-  count  = var.domain == "" ? 0 : 1
-  zone_id = var.route53_zone_id                       # This value is mandatory and specifies the Route53 zone ID for DNS configuration.
-  name    = var.domain                                # This value is mandatory and specifies the custom domain for the Cognito user pool.
+  count   = var.domain == "" ? 0 : 1
+  zone_id = var.route53_zone_id # This value is mandatory and specifies the Route53 zone ID for DNS configuration.
+  name    = var.domain          # This value is mandatory and specifies the custom domain for the Cognito user pool.
   type    = "CNAME"
   ttl     = 10
   records = [aws_cognito_user_pool_domain.this[0].cloudfront_distribution]
@@ -206,11 +206,11 @@ resource "aws_cognito_user_pool_client" "this" {
   depends_on = [
     aws_cognito_user_pool_domain.this
   ]
-  name                                 = var.client_name
-  user_pool_id                         = aws_cognito_user_pool.this.id
-  callback_urls                        = var.callback_urls
-  logout_urls                          = var.logout_urls
-  supported_identity_providers         = local.supported_identity_providers
+  name                         = var.client_name
+  user_pool_id                 = aws_cognito_user_pool.this.id
+  callback_urls                = var.callback_urls
+  logout_urls                  = var.logout_urls
+  supported_identity_providers = local.supported_identity_providers
 
   explicit_auth_flows = distinct(concat(
     ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_USER_SRP_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"],
@@ -233,7 +233,7 @@ resource "aws_cognito_user_pool_client" "this" {
 }
 
 resource "aws_cognito_identity_pool" "this" {
-  identity_pool_name = aws_cognito_user_pool.this.name
+  identity_pool_name               = aws_cognito_user_pool.this.name
   allow_unauthenticated_identities = false
   allow_classic_flow               = false
 
