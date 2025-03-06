@@ -213,13 +213,13 @@ variable "facebook_idp_enabled" {
 variable "facebook_id" {
   description = "Facebook client ID"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "facebook_secret" {
   description = "Facebook client secret"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "google_idp_enabled" {
@@ -231,13 +231,13 @@ variable "google_idp_enabled" {
 variable "google_id" {
   description = "Google client ID"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "google_secret" {
   description = "Google client secret"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "apple_idp_enabled" {
@@ -249,25 +249,25 @@ variable "apple_idp_enabled" {
 variable "apple_service_id" {
   description = "Apple service ID"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "apple_team_id" {
   description = "Apple team ID"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "apple_key_id" {
   description = "Apple key ID"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "apple_private_key" {
   description = "Path to Apple private key"
   type        = string
-  default     = "null"
+  default     = null
 }
 
 variable "allowed_oauth_flows" {
