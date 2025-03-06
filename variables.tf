@@ -19,7 +19,7 @@ variable "ses_from_email" {
 variable "auth_sms_message" {
   description = "Authentication SMS message"
   type        = string
-  default     = "Este código te lo envía {####}"
+  default     = "This code sends you {####}"
 }
 
 variable "html_email_message" {
