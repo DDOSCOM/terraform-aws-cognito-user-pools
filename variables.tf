@@ -19,7 +19,7 @@ variable "ses_from_email" {
 variable "auth_sms_message" {
   description = "Authentication SMS message"
   type        = string
-  default     = "Este código te lo envía {####}"
+  default     = "This code sends you {####}"
 }
 
 variable "html_email_message" {
@@ -50,19 +50,19 @@ variable "enable_software_token_mfa" {
 variable "email_sending_account" {
   description = "Email sending account"
   type        = string
-  default     = "COGNITO_DEFAULT"  
+  default     = "COGNITO_DEFAULT"
 }
 
 variable "reply_to_email_address" {
   description = "Reply-to email address"
   type        = string
-  default = ""
+  default     = ""
 }
 
 variable "sms_external_id" {
   description = "SMS external ID"
   type        = string
-  default     = ""  
+  default     = ""
 }
 
 variable "enable_sms_sns" {
@@ -80,86 +80,86 @@ variable "sms_sns_caller_arn" {
 variable "email_recovery_name" {
   description = "Email recovery mechanism name"
   type        = string
-  default     = "verified_email"  
+  default     = "verified_email"
 }
 
 variable "email_recovery_priority" {
   description = "Email recovery mechanism priority"
   type        = number
-  default     = 1  
+  default     = 1
 }
 
 variable "phone_number_recovery_name" {
   description = "Phone number recovery mechanism name"
   type        = string
-  default     = "verified_phone_number"  
+  default     = "verified_phone_number"
 }
 
 variable "phone_number_recovery_priority" {
   description = "Phone number recovery mechanism priority"
   type        = number
-  default     = 2  
+  default     = 2
 }
 
 variable "username_attributes" {
   description = "Username attributes"
   type        = list(string)
-  default     = ["email", "phone_number"]  
+  default     = ["email", "phone_number"]
 }
 
 variable "username_case_sensitive" {
   description = "Username case sensitive"
   type        = bool
-  default     = false  
+  default     = false
 }
 
 variable "password_minimum_length" {
   description = "Password minimum length"
   type        = number
-  default     = 8  
+  default     = 8
 }
 
 variable "client_name" {
   description = "Client name"
   type        = string
-  default     = "default-service-client"  
+  default     = "default-service-client"
 }
 
 variable "callback_urls" {
   description = "Callback URLs"
   type        = list(string)
-  default     = ["http://localhost:3000"]  
+  default     = ["http://localhost:3000"]
 }
 
 variable "logout_urls" {
   description = "Logout URLs"
   type        = list(string)
-  default     = ["http://localhost:3000"]  
+  default     = ["http://localhost:3000"]
 }
 
 variable "aws_region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-1"  
+  default     = "us-east-1"
 }
 
 variable "domain" {
   description = "Cognito domain"
   type        = string
-  default     = ""  
+  default     = ""
 }
 
 variable "certificate_arn" {
   description = "Certificate ARN"
   type        = string
-  default     = "" 
+  default     = ""
 }
 
 
 variable "route53_zone_id" {
   description = "Route53 zone ID"
   type        = string
-  default     = "" 
+  default     = ""
 }
 
 variable "auth_flows" {
@@ -213,13 +213,13 @@ variable "facebook_idp_enabled" {
 variable "facebook_id" {
   description = "Facebook client ID"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "facebook_secret" {
   description = "Facebook client secret"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "google_idp_enabled" {
@@ -231,13 +231,13 @@ variable "google_idp_enabled" {
 variable "google_id" {
   description = "Google client ID"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "google_secret" {
   description = "Google client secret"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "apple_idp_enabled" {
@@ -249,25 +249,25 @@ variable "apple_idp_enabled" {
 variable "apple_service_id" {
   description = "Apple service ID"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "apple_team_id" {
   description = "Apple team ID"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "apple_key_id" {
   description = "Apple key ID"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "apple_private_key" {
   description = "Path to Apple private key"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "allowed_oauth_flows" {
